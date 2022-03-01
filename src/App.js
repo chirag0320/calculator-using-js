@@ -13,7 +13,6 @@ function App() {
   const dostuff = (num, sym) => {
     if (num !== null) {
       setoperator(true);
-      console.log(done.item(0).childNodes[0].classList.remove("answer"));
 
       setinput((e) => e.toString() + num);
       console.log(input);
