@@ -1,8 +1,9 @@
 import { useState } from "react";
 import "./App.css";
+var done = document.getElementsByClassName("display");
 
 function App() {
-  // const arr = [];
+  const open = ["-", "+", "*", "/", "="];
   const [input, setinput] = useState([]);
   const [arr, setarr] = useState([]);
   const [sum, setsum] = useState(0);
@@ -12,7 +13,10 @@ function App() {
   const dostuff = (num, sym) => {
     if (num !== null) {
       setoperator(true);
+      console.log(done.item(0).childNodes[0].classList.remove("answer"));
+
       setinput((e) => e.toString() + num);
+      console.log(input);
       setmyinput((e) => e.toString() + num);
     } else if (operator) {
       setarr((e) => [...e, { myinput, sym }]);
@@ -20,26 +24,28 @@ function App() {
       setoperator(false);
       setmyinput("");
     }
-
-    // if (sym == "=") {
-    //   getresult(myinput, sym);
-    // }
   };
 
-  // console.log(1, eval(input));
-  // console.log(2, arr);
-
-  const getresult = (myinput) => {
-    arr.push({ myinput, myinput });
+  const getresult = (myinput, sym) => {
+    arr.push({ myinput, sym });
     console.log(200000, eval(input));
-    var done = document.getElementsByClassName("display");
     done.item(0).style.backgroundColor = "green";
-    done.item(0).innerHTML = eval(input);
+    done.item(0).childNodes[0].innerText = eval(input);
+    console.log(done.item(0).childNodes[0].classList.add("answer"));
+    console.log(done.item(0).children);
+    done.item(0).childNodes[1].innerText = input;
   };
   console.log(sum, 2000);
   return (
     <div className="App">
-      <div className="display">{input}</div>
+      <div className="display">
+        <span className="trying">{input}</span>
+        <span style={{ fontSize: "20px" }}>
+          {open.every((e) => input.slice(input.length - 1) !== e)
+            ? eval(input)
+            : console.log("no")}
+        </span>
+      </div>
       <div className="body">
         <div class="grid-container" style={{ display: "grid" }}>
           <div class="grid-item" onClick={() => dostuff(1)}>
@@ -97,7 +103,7 @@ function App() {
           <div
             class="grid-item"
             onClick={() => {
-              getresult(myinput);
+              getresult(myinput, "=");
             }}
           >
             =
